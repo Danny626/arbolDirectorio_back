@@ -38,8 +38,9 @@ public class DirectorioController {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			String jsonInString = new ObjectMapper().writerWithDefaultPrettyPrinter()
-					.writeValueAsString(getNodeFull(new File(folder)));
+//			String jsonInString = new ObjectMapper().writerWithDefaultPrettyPrinter()
+//					.writeValueAsString(getNodeFull(new File(folder)));
+			String jsonInString = new ObjectMapper().writeValueAsString(getNodeFull(new File(folder)));
 			sb.append("{\"data\":[");
 			sb.append(jsonInString);
 			sb.append("]}");
