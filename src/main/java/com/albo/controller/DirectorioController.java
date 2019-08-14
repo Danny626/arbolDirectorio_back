@@ -1,5 +1,6 @@
 package com.albo.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPOutputStream;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -69,6 +71,17 @@ public class DirectorioController {
 	}
 	// fin funcion guardar json
 
+	// función para comprimir un byte[]
+	public String compress(byte[] elem) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		GZIPOutputStream gzip = new GZIPOutputStream(out);
+		gzip.write(elem);
+		gzip.close();
+		String outStr = out.toString("UTF-8");
+		return outStr;
+	}
+	// fin función para comprimir un byte[]
+
 	@PostMapping(value = "/listarDirectorios", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StringBuilder> generaJson(@RequestBody FileAux fileAux) {
 		boolean flagRelacion = true;
@@ -106,7 +119,7 @@ public class DirectorioController {
 
 				jsonInString = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(nodo);
 
-				System.out.println(jsonInString);
+//				System.out.println(jsonInString);
 
 				sb.append("{\"data\":[");
 				sb.append(jsonInString);
@@ -224,7 +237,7 @@ public class DirectorioController {
 		File archivo = new File(urlArchivo);
 
 		try {
-			System.out.println(archivo.toPath());
+//			System.out.println(archivo.toPath());
 			fileBytes = Files.readAllBytes(archivo.toPath());
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -246,6 +259,8 @@ public class DirectorioController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		
 
 		return new ResponseEntity<byte[]>(fileBytes, HttpStatus.OK);
 	}

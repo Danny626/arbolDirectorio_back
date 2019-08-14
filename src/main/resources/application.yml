@@ -14,3 +14,7 @@ spring:
     url: jdbc:postgresql://${DB_HOST}/${DB_SCHEMA}
     username: ${USERNAME}
     password: ${PASSWORD}
+server:
+  compression:
+    enabled: true
+    mime-types: application/octet-stream,application/json,application/xml,text/html,text/xml,text/plain,text/css,text/javascript,application/javascript
